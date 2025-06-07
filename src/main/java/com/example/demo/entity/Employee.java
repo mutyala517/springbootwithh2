@@ -1,8 +1,12 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import org.springframework.context.annotation.Lazy;
 
 @Entity
 public class Employee {
@@ -13,6 +17,21 @@ public class Employee {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
+    private String department;
+    private Double salary;
+
+    @Lazy
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
+    public Employee(Address address, Double salary, String department, String name) {
+        this.address = address;
+        this.salary = salary;
+        this.department = department;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -46,13 +65,22 @@ public class Employee {
         this.salary = salary;
     }
 
-    private String name;
-    private String department;
-    private Double salary;
+    public Address getAddress() {
+        return address;
+    }
 
-    public Employee(String name, String department, Double salary) {
-        this.name = name;
-        this.department = department;
-        this.salary = salary;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
+                ", salary=" + salary +
+                ", address=" + address +
+                '}';
     }
 }
