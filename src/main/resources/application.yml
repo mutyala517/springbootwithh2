@@ -19,4 +19,7 @@ spring:
 server:
   servlet:
     context-path: /sba/v1/
-
+security:
+  user:
+    name: admin
+    password: admin
